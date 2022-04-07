@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+    app-fotolog:
+        build: .
+        container_name: app
+        #entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 40s ./.docker/entrypoint.sh
+        entrypoint: ./.docker/entrypoint.sh
+        environment:
+            - DB_HOST=db
+            - DB_TYPE=pgsql
+            - DB_PORTA=5432
+            - DB_DATABASE=fotolog
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+        volumes:
+            - .:/var/www
+        networks:
+            - app-fotolog-network
+        depends_on: 
+            - db-fotolog
+    nginx-fotolog:
+        build: .docker/nginx
+        entrypoint: dockerize -template /var/www/.docker/nginx/template/nginx.conf:/var/www/.docker/nginx/nginx.conf -timeout 10s sh /var/www/.docker/nginx/entrypoint.sh
+        container_name: nginx
+        restart: always
+        tty: true
+        environment:
+            - APP_HOST=app
+            - APP_PORT=9000
+        ports:
+            - 8000:80
+        volumes:
+            - .:/var/www
+        links:
+            - app-fotolog   
+        networks:
+            - app-fotolog-network
+        depends_on:
+            - app-fotolog
+    db-fotolog:
+        build: .docker/postgres
+        container_name: postgres
+        restart: always
+        tty: true
+        ports:
+            - 15432:5432
+        volumes:
+            - ./.docker/dbdata:/var/lib/postgres/data
+        environment: 
+            - POSTGRES_DB=fotolog
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_USER=root
+            - PGADMIN_DEFAULT_EMAIL=fotolog@eb.com.br
+        networks:
+            - app-fotolog-network   
+    pgadmin-fotolog:
+        image: dpage/pgadmin4
+        tty: true
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=fotolog@eb.com.br
+            - PGADMIN_DEFAULT_PASSWORD=123456
+        ports:
+            - "9000:80"
+        networks:
+            - app-fotolog-network   
+        depends_on:
+            - db-fotolog                  
+networks:
+    app-fotolog-network:
+        driver: bridge
