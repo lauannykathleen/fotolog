@@ -4,8 +4,8 @@
 
 define('HOST' , 'db-fotolog');
 define('BANCO' , 'fotolog');
-define('USER' , '');
-define('PASSWORD' , '');
-
+define('PORTA' , '5432');
+define('USER' , 'root');
+define('PASSWORD' , 'root');
 
 ?>

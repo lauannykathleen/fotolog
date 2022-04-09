@@ -26,9 +26,9 @@ class IndexController {
     private function listar() {
         
         //iniciando model usuario como exemplo
-       // $objUsuario = new Usuario();
+        $objUsuario = new Usuario();
 
-       // $arrListagem = $objUsuario->listagem();
+        $arrListagem = $objUsuario->listagem();
 
         require '/var/www/app/View/usuario/index.php';
     }
