@@ -11,5 +11,6 @@ if (!strpos($_SERVER['REQUEST_URI'], 'public')) {
 
     //pega rota na url e executa action
     $objRota->executar();
+    
 }
 
