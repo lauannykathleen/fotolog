@@ -23,9 +23,6 @@ class Pgsql extends Db
             
         } catch (Exception $e) {
             echo 'Exceção capturada: ',  $e->getMessage(), "\n";
-
-            var_dump( "pgsql:host=" . $servidor . ";port=5432;dbname= " . $banco . " ;user= " . $usuario . " ;password= " . $senha); exit;
-            
         }
     }
 

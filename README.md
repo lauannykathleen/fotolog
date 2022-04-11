@@ -26,3 +26,15 @@ fotolog
 root
 root
 ```
+
+Adiciona as rotas no arquivo rota dentro da pasta config exemplo index nome da rota e o valor e namespace com nome do controler @ nome da action(function)
+```
+$arrRota = [
+    'inicial' => 'App\Controller\IndexController@index',
+    'login' => 'App\Controller\UsuarioController@login',
+    'logout' => 'App\Controller\UsuarioController@logout',
+    'postagem' => 'App\Controller\PostagemController@index',
+];
+
+
+```
